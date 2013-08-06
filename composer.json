@@ -14,11 +14,11 @@
 		}
 	],
 	"require"    :{
-		"php"                       :">=5.3.0",
+		"php"                       :">=5.3.3",
 		"composer/installers"       : "*",
 		"cartalyst/sentry"          : "2.0.*",
 		"ircmaxell/password-compat" : "1.0.*",
 		"happydemon/txt"            : "*",
-		"happydemon/elements"       : "1.*"
+		"happydemon/elements"       : ">=1.4"
 	}
 }
