@@ -1,0 +1,24 @@
+{
+	"name"       :"happydemon/s4k",
+	"type"       :"kohana-module",
+	"description":"An examplary implementation of Sentry in Kohana",
+	"keywords"   :["kohana", "Sentry", "kohana module", "Auth", "ACL"],
+	"homepage"   :"https://github.com/happyDemon/s4k",
+	"license"    :"MIT",
+	"authors"    :[
+		{
+			"name"    :"Maxim Kerstens",
+			"email"   :"admin@happydemon.org",
+			"homepage":"http://happydemon.org",
+			"role"    :"Developer"
+		}
+	],
+	"require"    :{
+		"php"                       :">=5.3.0",
+		"composer/installers"       : "*",
+		"cartalyst/sentry"          : "2.0.*",
+		"ircmaxell/password-compat" : "1.0.*",
+		"happydemon/txt"            : "*",
+		"happydemon/elements"       : "1.*"
+	}
+}
