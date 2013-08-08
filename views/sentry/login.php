@@ -1,4 +1,4 @@
-<h2>Register</h2>
+<h2>Sign in</h2>
 
 <div class="row-fluid">
 	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.login', null, true);?>">

@@ -10,6 +10,7 @@
 	<p>
 		Therefore no user activation code is sent when registering, or a confirmation code when resetting your password, it will just be displayed.
 	</p>
+	<small>These parts have been marked with <code>@todo</code> in the code.</small>
 
 	<h3><span class="text-info">Sentry</span> config file</h3>
 
@@ -32,3 +33,4 @@
 		</ul>
 	</li>
 </ul>
+	<div id="push"></div>

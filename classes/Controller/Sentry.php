@@ -14,4 +14,10 @@ class Controller_Sentry extends Controller_Sentry_Base {
 		$this->response->body($this->_tpl->render());
 	}
 
+	public function action_permissions()
+	{
+		$this->_tpl->content = View::factory('sentry/permissions');
+		$this->response->body($this->_tpl->render());
+	}
+
 } // End Sentry

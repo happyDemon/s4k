@@ -46,7 +46,33 @@ Route::set('sentry.users.reset_valid', 'sentry/reset/validate')
 );
 Route::set('sentry.groups', 'sentry/groups')
 	->defaults(array(
-		'controller' => 'Sentry_User',
-		'action'     => 'groups'
+		'controller' => 'Sentry_Groups',
+		'action'     => 'index'
+	)
+);
+Route::set('sentry.groups.add', 'sentry/groups/add')
+	->defaults(array(
+		'controller' => 'Sentry_Groups',
+		'action'     => 'add'
+	)
+);
+Route::set('sentry.groups.edit', 'sentry/groups/<id>/edit', array('id' => '[0-9]+'))
+	->defaults(array(
+		'controller' => 'Sentry_Groups',
+		'action'     => 'edit',
+		'id'         => null
+	)
+);
+Route::set('sentry.groups.delete', 'sentry/groups/<id>/delete', array('id' => '[0-9]+'))
+	->defaults(array(
+		'controller' => 'Sentry_Groups',
+		'action'     => 'delete',
+		'id'         => null
+	)
+);
+Route::set('sentry.permissions', 'sentry/permissions')
+	->defaults(array(
+		'controller' => 'Sentry',
+		'action'     => 'permissions'
 	)
 );

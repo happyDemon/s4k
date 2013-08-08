@@ -8,8 +8,9 @@
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-
-	<link href="http://bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/bootswatch/2.3.2/cosmo/bootstrap.min.css" rel="stylesheet">
 	<style type="text/css">
 		html,
 		body {
@@ -50,8 +51,6 @@
 		}
 
 	</style>
-	<link href="http://bootswatch.com/default/bootstrap-responsive.min.css" rel="stylesheet">
-	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
 
@@ -87,5 +86,11 @@
 
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	<script src="http://ktt-happydemon.rhcloud.com/cdn/moveSelect.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#permissions').moveSelect({btn_save: $('#group-save'), filter: false});
+		});
+	</script>
 </body>
 </html>

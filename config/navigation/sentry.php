@@ -22,12 +22,12 @@ return array(
 					'title'   => 'Register'
 				),
 				array(
-					'route'     => 'sentry.users.login',
-					'title'   => 'Login'
-				),
-				array(
 					'route'     => 'sentry.users.activate',
 					'title'   => 'Activate'
+				),
+				array(
+					'route'     => 'sentry.users.login',
+					'title'   => 'Login'
 				),
 				array(
 					'route'     => 'sentry.users.reset',
@@ -38,6 +38,10 @@ return array(
 		array(
 			'title'   => 'Groups',
 			'route' => 'sentry.groups'
+		),
+		array(
+			'title'   => 'Permissions',
+			'route' => 'sentry.permissions'
 		)
 	),
 );

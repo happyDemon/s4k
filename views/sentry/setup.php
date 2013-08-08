@@ -1,5 +1,6 @@
 <h1>Setup</h1>
-	<p>Setting up <span class="text-info">Sentry for Kohana</span> is easy as pie.</p><br />
+	<p>Setting up <span class="text-info">Sentry for Kohana</span> is easy as pie.<br />
+	<small>This is when you don't want to make use of the <span class="text-success">S4K</span> module.</small></p><br />
 
 	<ul class="unstyled">
 		<li>
