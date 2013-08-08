@@ -142,7 +142,7 @@ class Permissions {
 					{
 						if (!in_array($set . '.' . $v, $exclude))
 						{
-							$perms['keep'][] = $set . '.' . $v;
+							$perms['free'][] = $set . '.' . $v;
 						}
 						else
 						{
@@ -159,7 +159,7 @@ class Permissions {
 		}
 
 		sort($perms['owned']);
-		sort($perms['keep']);
+		sort($perms['free']);
 		return $list;
 	}
 	/**
@@ -178,7 +178,7 @@ class Permissions {
 			{
 				if (!in_array($parent . '.' . $v, $exclude))
 				{
-					$list['keep'][] = $parent . '.' . $v;
+					$list['free'][] = $parent . '.' . $v;
 				}
 				else
 				{

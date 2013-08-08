@@ -34,7 +34,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 		}
 
 		if(!$ignore_form)
-			$content .= View::factory('sentry/register', $form_values);
+			$content .= View::factory('sentry/user/register', $form_values);
 
 		$this->_tpl->content = $content;
 		$this->response->body($this->_tpl->render());
@@ -73,7 +73,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 		}
 
 		if(!$ignore_form)
-			$content .= View::factory('sentry/activate');
+			$content .= View::factory('sentry/user/activate');
 
 		$this->_tpl->content = $content;
 		$this->response->body($this->_tpl->render());
@@ -153,7 +153,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 		}
 
 		if(!$ignore_form)
-			$content .= View::factory('sentry/login', $view);
+			$content .= View::factory('sentry/user/login', $view);
 
 		$this->_tpl->content = $content;
 		$this->response->body($this->_tpl->render());
@@ -184,7 +184,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 		}
 
 		if(!$ignore_form)
-			$content .= View::factory('sentry/reset');
+			$content .= View::factory('sentry/user/reset');
 
 		$this->_tpl->content = $content;
 		$this->response->body($this->_tpl->render());
@@ -233,7 +233,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 		}
 
 		if(!$ignore_form)
-			$content .= View::factory('sentry/reset_validate');
+			$content .= View::factory('sentry/user/reset_validate');
 
 		$this->_tpl->content = $content;
 		$this->response->body($this->_tpl->render());

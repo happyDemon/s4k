@@ -15,8 +15,8 @@
 					<div class="row-fluid">
 						<div class="span5">
 							<select multiple="multiple" class="span12" id="move-select-base" size="8">
-								<?php if(count($permissions['keep']) > 0):?>
-								<?php foreach($permissions['keep'] as $id => $perm):?>
+								<?php if(count($permissions['free']) > 0):?>
+								<?php foreach($permissions['free'] as $id => $perm):?>
 									<option value="<?=$id;?>"><?=$perm;?></option>
 								<?php endforeach; ?>
 								<?php endif; ?>
