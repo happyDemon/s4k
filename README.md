@@ -82,10 +82,10 @@ Right under that we'll put the code to alias some Sentry classes
  * Setup Sentry
  */
 class_alias('\Cartalyst\Sentry\Facades\Kohana\Sentry', 'Sentry');
-class_alias('\Cartalyst\Sentry\Users\Kohana\User', 'Model_User');
-class_alias('\Cartalyst\Sentry\Throttling\Kohana\Throttle', 'Model_Throttle');
-class_alias('\Cartalyst\Sentry\Groups\Kohana\Group', 'Model_Group');
 ```
+
+**NOTE: in the previous codebase you also aliassed the models, this isn't necessary anymore since they're
+now incuded in this module**
 
 Allright, we're nearly up and running, all we need to do is run an SQL dump in phpMyAdmin, you can find 
 it under ```DOCROOT/vendor/cartalyst/schema/mysql.sql```
