@@ -17,7 +17,7 @@
 							<select multiple="multiple" class="span12" id="move-select-base" size="8">
 								<?php if(count($permissions['free']) > 0):?>
 								<?php foreach($permissions['free'] as $id => $perm):?>
-									<option value="<?=$id;?>"><?=$perm;?></option>
+									<option value="<?=$perm;?>"><?=$perm;?></option>
 								<?php endforeach; ?>
 								<?php endif; ?>
 							</select>
@@ -30,7 +30,7 @@
 							<select multiple="multiple" class="span12" id="move-select-container" size="8" name="permissions[]">
 								<?php if(count($permissions['owned']) > 0):?>
 								<?php foreach($permissions['owned'] as $id => $perm):?>
-								<option value="<?=$id;?>"><?=$perm;?></option>
+								<option value="<?=$perm;?>"><?=$perm;?></option>
 								<?php endforeach; ?>
 								<?php endif; ?>
 							</select>

@@ -1,4 +1,4 @@
-<h2 xmlns="http://www.w3.org/1999/html">Permissions</h2>
+<h2>Permissions</h2>
 
 <p>
 	<a href="http://docs.cartalyst.com/sentry-2/permissions" target="_blank">Full permission documentation</a>.

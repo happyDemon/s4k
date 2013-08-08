@@ -16,15 +16,13 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 			{
 				$post = $this->request->post();
 
-				//normalise permissions if any were selected
+				//Set all provied permissions to 1
 				if(array_key_exists('permissions', $post) && count($post['permissions'] > 0)) {
-					$permissions = Permissions::instance()->all();
 					$list = array();
 
 					foreach($post['permissions'] as $key) {
-						$list[$permissions[$key]] = 1;
+						$list[$key] = 1;
 					}
-
 					$post['permissions'] = $list;
 				}
 
@@ -72,15 +70,13 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 				{
 					$post = $this->request->post();
 
-					//normalise permissions if any were selected
+					//set all posted permissions to 1
 					if(array_key_exists('permissions', $post) && count($post['permissions'] > 0)) {
-						$permissions = Permissions::instance()->all();
 						$list = array();
 
 						foreach($post['permissions'] as $key) {
-							$list[$permissions[$key]] = 1;
+							$list[$key] = 1;
 						}
-
 						$post['permissions'] = $list;
 					}
 
@@ -101,7 +97,8 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 			}
 
 			if(!$ignore_form) {
-				$content .= View::factory('sentry/groups/edit',array('group' => $group, 'permissions' => Permissions::instance()->split(array_keys($group->permissions))));
+				$permissions = (is_array($group->permissions)) ? array_keys($group->permissions) : array();
+				$content .= View::factory('sentry/groups/edit',array('group' => $group, 'permissions' => Permissions::instance()->split($permissions)));
 			}
 		}
 

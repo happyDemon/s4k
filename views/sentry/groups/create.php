@@ -16,7 +16,7 @@
 						<div class="span5">
 							<select multiple="multiple" class="span12" id="move-select-base" size="8">
 								<?php foreach($permissions as $id => $perm):?>
-									<option value="<?=$id;?>"><?=$perm;?></option>
+									<option value="<?=$perm;?>"><?=$perm;?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
