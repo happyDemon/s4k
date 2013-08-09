@@ -70,6 +70,7 @@ Next up open ```APPATH.bootstrap.php``` and add S4K, elements and txt to your mo
 Kohana::modules(array(
   's4k' => MODPATH.'s4k',		// S4K module, examplory implementation of Sentry
   'txt' => MODPATH.'txt',		// Extra text helpers (used by Sentry)
+  'arr' => MODPATH.'arr',		// Extra Arr helpers (used for groups)
   'elements' => MODPATH.'elements',	// Navigation element manager
   'database'   => MODPATH.'database',	// Database access
   'orm'        => MODPATH.'orm',	// Object Relationship Mapping
