@@ -53,9 +53,10 @@ so installing it through composer will be a bit different.
 	"require": {
 		"cartalyst/sentry": "2.0.0",
 		"ircmaxell/password-compat": "1.0.*",
-  	"happydemon/elements": "*",
-  	"happydemon/txt": "*",
-		"happydemon/s4k": "*"
+  		"happydemon/elements": "*",
+  		"happydemon/txt": "*",
+		"happydemon/s4k": "*",
+		"happydemon/arr": "0.4"
 	},
 	"minimum-stability": "dev"
 }
