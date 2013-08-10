@@ -1,19 +1,19 @@
 <h2>Edit user "#<?=$user->id;?>"</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.manage.edit', array('id' => $user->id), true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.manage.edit.complete', array('id' => $user->id), true);?>">
 		<fieldset>
 			<legend>General</legend>
 			<div class="control-group">
 				<label class="control-label" for="inputEmail">Email</label>
 				<div class="controls">
-					<input type="text" name="email" value="<?=$user->email;?>" id="inputEmail" placeholder="Email" required />
+					<input type="text" name="email" value="<?=$user->email;?>" id="inputEmail" placeholder="Email" required /> <span class="text-error">*</span>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="inputPassword">Password</label>
 				<div class="controls">
-					<input type="password" name="password" value="" id="inputPassword" placeholder="Password" /> <span class="text-error">*</span>
+					<input type="password" name="password" value="" id="inputPassword" placeholder="Password" />
 				</div>
 			</div>
 			<div class="control-group">
@@ -68,28 +68,28 @@
 					<div class="row-fluid" id="groups">
 						<div class="row-fluid">
 							<div class="span5">
-								<select multiple="multiple" class="span12" id="move-select-base-group" size="8">
+								<select multiple="multiple" class="span12" id="move-group-base" size="8">
 									<?php foreach($groups['free'] as $group):?>
 									<option value="<?=$group->id;?>"><?=$group->name;?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
 							<div class="span2 pagination-centered" style="padding-top: 60px;">
-								<a class="btn btn-small btn-primary" id="move-select-in-group">>></a><br />
-								<a class="btn btn-small btn-primary" id="move-select-out-group"><<</a>
+								<a class="btn btn-small btn-primary" id="move-group-in">>></a><br />
+								<a class="btn btn-small btn-primary" id="move-group-out"><<</a>
 							</div>
 							<div class="span5">
-								<select multiple="multiple" class="span12" id="move-select-container-group" size="8" name="groups[]">
-									<?php foreach($groups['excluded'] as $group):?>
+								<select multiple="multiple" class="span12" id="move-group-container" size="8" name="groups[]">
+									<?php foreach($groups['joined'] as $group):?>
 									<option value="<?=$group->id;?>"><?=$group->name;?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
 						</div>
 						<div class="row-fluid">
-							<div class="span5"><a href="#" class="btn btn-mini btn-success" id="move-select-fill-group">Move all</a></div>
+							<div class="span5"><a href="#" class="btn btn-mini btn-success" id="move-group-fill">Move all</a></div>
 							<div class="span2" style="padding-top: 20px; padding-left: 15px"></div>
-							<div class="span5"><a href="#" class="btn btn-mini btn-danger pull-right" id="move-select-empty-group">Remove all</a></div>
+							<div class="span5"><a href="#" class="btn btn-mini btn-danger pull-right" id="move-group-empty">Remove all</a></div>
 						</div>
 					</div>
 				</div>
@@ -112,9 +112,11 @@
 							</div>
 							<div class="span5">
 								<select multiple="multiple" class="span12" id="move-select-container" size="8" name="permissions[]">
-									<?php foreach($permissions['owned'] as $id => $perm):?>
-									<option value="<?=$perm;?>"><?=$perm;?></option>
-									<?php endforeach; ?>
+									<?php if(count($permissions['excluded']) > 0):?>
+										<?php foreach($permissions['excluded'] as $id => $perm):?>
+										<option value="<?=$perm;?>"><?=$perm;?></option>
+										<?php endforeach; ?>
+									<?php endif; ?>
 								</select>
 							</div>
 						</div>

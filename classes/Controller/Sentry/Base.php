@@ -5,6 +5,12 @@ abstract class Controller_Sentry_Base extends Controller {
 
 	public function before() {
 		$this->_tpl = View::factory('Sentry/layout');
+
+		$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+	}
+
+	public function after() {
+		$this->response->body($this->_tpl->render());
 	}
 
 } // End Sentry_Base

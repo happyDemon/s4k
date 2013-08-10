@@ -2,14 +2,18 @@
 
 class Controller_Sentry_User extends Controller_Sentry_Base {
 
-	public function action_register() {
-		$content = '';
-		$ignore_form = false;
+	// Show the registration form
+	public function action_register($values = array()) {
+		$form_values = array_merge(array('email' => '', 'password' => '', 'first_name' => '', 'last_name' => ''), $values);
+
+		$this->_tpl->content = View::factory('sentry/user/register', $form_values);
+	}
+	
+	// Try to register the user
+	public function action_register_complete() {
 		$form_values = array('email' => '', 'password' => '', 'first_name' => '', 'last_name' => '');
 
 		if($this->request->post() != null) {
-			$form_values = array_merge($form_values, $this->request->post());
-
 			try
 			{
 				// Let's register a user.
@@ -18,9 +22,13 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				// Let's get the activation code
 				$activationCode = $user->getActivationCode();
 
-				$content .= 'Your activation code is: ' . $activationCode;
+				Hint::set(Hint::SUCCESS, 'Your activation code is: ' . $activationCode);
+
+				//everything went successful, send the user somewhere else
+				$this->redirect(Route::url('sentry.users.register', null, true));
+				//@todo normally you wouldn't redirect back to the register
 				//@todo Send activation code to the user so he can activate the account
-				$ignore_form = true;
+
 			}
 			catch (ORM_Validation_Exception $e)
 			{
@@ -28,22 +36,25 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 
 				foreach($errors as $error)
 				{
-					$content .= '<div class="alert alert-error">'.$error.'<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+					Hint::set(Hint::ERROR, $error);
 				}
+
+				//redisplay the register form
+				$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+				$this->action_register($this->request->post());
 			}
 		}
-
-		if(!$ignore_form)
-			$content .= View::factory('sentry/user/register', $form_values);
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		else // no post request made, send back
+			$this->redirect(Route::url('sentry.users.register', null, true));
 	}
 
+	// Show the user activation form
 	public function action_activate() {
-		$content = '';
-		$ignore_form = false;
+		$this->_tpl->content = View::factory('sentry/user/activate');
+	}
 
+	// Try to activate the user
+	public function action_activate_complete() {
 		if($this->request->post() != null) {
 			try {
 				$user = Sentry::getUserProvider()->findByCredentials(array('email' => $this->request->post('email')));
@@ -52,39 +63,45 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				if ($user->attemptActivation($this->request->post('activation_code')))
 				{
 					// User activation passed
-					$ignore_form = true;
-					$content .= '<div class="alert alert-success">Your account has been activated. <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+					Hint::set(Hint::SUCCESS, 'Your account has been activated.');
+
+					//everything went successful, send the user somewhere else
+					$this->redirect(Route::url('sentry.users.activate', null, true));
+					//@todo you'd preferably send the user to a welcome page instead of the activate page again
 				}
 				else
 				{
 					// User activation failed
-					$content .= '<div class="alert alert-error">You seem to have entered the wrong activation code.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+					Hint::set(Hint::ERROR, 'You seem to have entered the wrong activation code.');
 				}
 			}
 			catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 			{
-				$content .= '<div class="alert alert-error">There\'s no record of the user you want to activate.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'There\'s no record of the user you want to activate.');
 
 			}
 			catch (Cartalyst\SEntry\Users\UserAlreadyActivatedException $e)
 			{
-				$content .= '<div class="alert alert-error">This user is already activated.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'This user is already activated.');
 			}
+
+			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->action_activate();
 		}
-
-		if(!$ignore_form)
-			$content .= View::factory('sentry/user/activate');
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		else // no post request made, send back
+			$this->redirect(Route::url('sentry.users.register', null, true));
 	}
 
-	public function action_login() {
-		$ignore_form = false;
-		$content = '';
-		$view = array('throttle' => '');
+	// Show the login form
+	public function action_login($view = array('throttle' => '')) {
+		$this->_tpl->content = View::factory('sentry/user/login', $view);
+	}
 
+	// Try to log a user in
+	public function action_login_complete($view = array('throttle' => '')) {
 		if($this->request->post() != null) {
+			$view = array('throttle' => '');
+
 			try
 			{
 				$throttle_provider = Sentry::getThrottleProvider();
@@ -115,12 +132,14 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				if($throttle_provider->isEnabled())
 					$throttle->clearLoginAttempts();
 
-				$ignore_form = true;
-				$content .= '<div class="alert alert-success">Welcome back! <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::SUCCESS, 'Welcome back!');
+				//everything went successful, send the user somewhere else
+				$this->redirect(Route::url('sentry.users.login', null, true));
+				//@todo you'll probably rather send your user to a welcome page than back to the login
 			}
 			catch (Cartalyst\Sentry\Users\WrongPasswordException $e)
 			{
-				$content .= '<div class="alert alert-error">You seem to have have provided an incorrect password.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'You seem to have have provided an incorrect password.');
 
 				if($throttle_provider->isEnabled()) {
 					$throttle->addLoginAttempt();
@@ -130,39 +149,41 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 			}
 			catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 			{
-				$content .= '<div class="alert alert-error">There\'s no user with that login.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'There\'s no user with that login.');
 			}
 			catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
 			{
-				$content .= '<div class="alert alert-error">We need to know who\'s logging in.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'We need to know who\'s logging in.');
 			}
 			catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
 			{
-				$content .= '<div class="alert alert-error">Your account hasn\'t been activated yet.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'Your account hasn\'t been activated yet.');
 			}
 			catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
 			{
 				$time = $throttle->getSuspensionTime();
 
-				$content .= '<div class="alert alert-error">You have tried logging in too much, wait '.$time.' minutes before trying again.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'You have tried logging in too much, wait '.$time.' minutes before trying again.');
 			}
 			catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
 			{
-				$content .= '<div class="alert alert-error">You are banned.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'You are banned.');
 			}
+
+			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->action_login($view);
 		}
-
-		if(!$ignore_form)
-			$content .= View::factory('sentry/user/login', $view);
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		else // no post request made, send back
+			$this->redirect(Route::url('sentry.users.login', null, true));
 	}
 
+	// Show the reset password form
 	public function action_reset() {
-		$ignore_form = false;
-		$content = '';
+		$this->_tpl->content = View::factory('sentry/user/reset');
+	}
 
+	// Generate a reset token
+	public function action_reset_complete() {
 		if($this->request->post() != null) {
 			try
 			{
@@ -172,28 +193,32 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				// Get the password reset code
 				$resetCode = $user->getResetPasswordCode();
 
-				$content .= '<div class="alert alert-success">Your reset token is: "'.$resetCode.'" <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-				$ignore_form = true;
+				Hint::set(Hint::SUCCESS, 'Your reset token is: "'.$resetCode);
 
+				//everything went successful, send the user somewhere else
+				$this->redirect(Route::url('sentry.users.reset', null, true));
+				// @todo normally you wouldn't redirect here, but rather show a page conforming the code was sent
 				// @todo Now you can send this code to your user via email for example.
 			}
 			catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 			{
-				$content .= '<div class="alert alert-error">There\'s no user with that login credential.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'There\'s no user with that login credential.');
 			}
+
+			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->action_reset();
 		}
-
-		if(!$ignore_form)
-			$content .= View::factory('sentry/user/reset');
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		else // no post request made, send back
+			$this->redirect(Route::url('sentry.users.reset', null, true));
 	}
 
+	// Show the reset code validation form
 	public function action_reset_valid() {
-		$ignore_form = false;
-		$content = '';
+		$this->_tpl->content = View::factory('sentry/user/reset_validate');
+	}
 
+	// Try to reset a user's password
+	public function action_reset_valid_complete() {
 		if($this->request->post() != null) {
 			try
 			{
@@ -203,7 +228,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				));
 
 				if($this->request->post('password') == '')
-					$content .= '<div class="alert alert-error">Please provide a password.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+					Hint::set(Hint::ERROR, 'Please provide a password.');
 				// Check if the reset password code is valid
 				else if ($user->checkResetPasswordCode($this->request->post('code')))
 				{
@@ -211,32 +236,33 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 					if ($user->attemptResetPassword($this->request->post('code'), $this->request->post('password')))
 					{
 						// Password reset passed
-						$content .= '<div class="alert alert-success">You have successfully reset your password <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-						$ignore_form = true;
+						Hint::set(Hint::SUCCESS, 'You have successfully reset your password');
+
+						//everything went successful, send the user somewhere else
+						$this->redirect(Route::url('sentry.users.reset_valid', null, true));
 					}
 					else
 					{
-						$content .= '<div class="alert alert-error">Resetting your password has failed.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+						Hint::set(Hint::ERROR, 'Resetting your password has failed.');
 					}
 				}
 				else
 				{
 					// The provided password reset code is Invalid
-					$content .= '<div class="alert alert-error">The provided reset code is invalid.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-
+					Hint::set(Hint::ERROR, 'The provided reset code is invalid.');
 				}
 			}
 			catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 			{
-				$content .= '<div class="alert alert-error">There\'s no user with that login credential.<a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+				Hint::set(Hint::ERROR, 'There\'s no user with that login credential.');
 			}
+
+			//show the form with the hints
+			$this->redirect(Route::url('sentry.users.reset_valid', null, true));
+			$this->action_reset_valid();
 		}
-
-		if(!$ignore_form)
-			$content .= View::factory('sentry/user/reset_validate');
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		else // no post request made, send back
+			$this->redirect(Route::url('sentry.users.reset_valid', null, true));
 	}
 
 } // End Sentry_User

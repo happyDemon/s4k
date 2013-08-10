@@ -1,7 +1,7 @@
 <h2>Edit group "<?=$group->name;?>"</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.groups.edit', array('id' => $group->id), true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.groups.edit.complete', array('id' => $group->id), true);?>">
 		<div class="control-group">
 			<label class="control-label" for="inputName">Name</label>
 			<div class="controls">
@@ -28,10 +28,10 @@
 						</div>
 						<div class="span5">
 							<select multiple="multiple" class="span12" id="move-select-container" size="8" name="permissions[]">
-								<?php if(count($permissions['owned']) > 0):?>
-								<?php foreach($permissions['owned'] as $id => $perm):?>
-								<option value="<?=$perm;?>"><?=$perm;?></option>
-								<?php endforeach; ?>
+								<?php if(count($permissions['excluded']) > 0):?>
+									<?php foreach($permissions['excluded'] as $id => $perm):?>
+									<option value="<?=$perm;?>"><?=$perm;?></option>
+									<?php endforeach; ?>
 								<?php endif; ?>
 							</select>
 						</div>

@@ -1,22 +1,27 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Controller_Sentry_Groups extends Controller_Sentry_Base {
+
+	// List all the created groups
 	public function action_index() {
-		$groups = ORM::factory('Group')->find_all();
+		$groups = Sentry::getGroupProvider()->createModel()->find_all();
+
 		$this->_tpl->content = View::factory('sentry/groups/list', array('groups' => $groups));
-		$this->response->body($this->_tpl->render());
 	}
 
+	// Show the create group form
 	public function action_add() {
-		$ignore_form = false;
-		$content = '';
+		$this->_tpl->content = View::factory('sentry/groups/create',array('permissions' => Permissions::instance()->all()));
+	}
 
+	// Try to create a group
+	public function action_add_complete() {
 		if($this->request->post() != null) {
 			try
 			{
 				$post = $this->request->post();
 
-				//Set all provied permissions to 1
+				//Set all provided permissions to 1
 				if(array_key_exists('permissions', $post) && count($post['permissions'] > 0)) {
 					$list = array();
 
@@ -26,44 +31,55 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 					$post['permissions'] = $list;
 				}
 
-				$group = ORM::factory('Group')
+				$group = Sentry::getGroupProvider()->createModel()
 					->values($post)
 					->save();
 
-				$content .= '<div class="alert alert-success">You\'ve successfully created group "'.$group->name.'" <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-				$ignore_form = true;
+				Hint::set(Hint::SUCCESS, 'You\'ve successfully created group "'.$group->name.'"');
+				$this->redirect(Route::url('sentry.groups', null, true));
 			}
 			catch (ORM_Validation_Exception $e)
 			{
 				foreach($e->errors('model') as $error)
 				{
-					$content .= '<div class="alert alert-error">'.$error.' <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+					Hint::set(Hint::ERROR, $error);
 				}
-
 			}
+
+			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->action_add();
 		}
-
-		if(!$ignore_form) {
-			$content .= View::factory('sentry/groups/create',array('permissions' => Permissions::instance()->all()));
-		}
-
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		else
+			$this->redirect(Route::url('sentry.groups.add', null, true));
 	}
 
-	public function action_edit() {
+	// Show the edit group form
+	public function action_edit($group = null) {
 		$id = $this->request->param('id');
 
-		$group = ORM::factory('Group', $id);
+		try {
+			$group = ($group == null) ? Sentry::getGroupProvider()->findById($id): $group;
 
-		if (!$group->loaded())
-		{
-			$content = '<h2 class="text-error pull-left">404.</h2> <h3>No corresponding group found</h3>';
+			$permissions = (is_array($group->permissions)) ? array_keys($group->permissions) : array();
+
+			$this->_tpl->content = View::factory('sentry/groups/edit', array(
+				'group' => $group,
+				'permissions' => Permissions::instance()->split($permissions)
+				)
+			);
 		}
-		else {
-			$content = '';
-			$ignore_form = false;
+		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+			Hint::set(Hint::ERROR, 'No corresponding group found');
+			$this->redirect(Route::url('sentry.groups', null, true));
+		}
+	}
+
+	// Try to edit a group
+	public function action_edit_complete() {
+		$id = $this->request->param('id');
+
+		try {
+			$group = Sentry::getGroupProvider()->findById($id);
 
 			if($this->request->post() != null) {
 				try
@@ -83,47 +99,47 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 					$group->values($post)
 						->save();
 
-					$content .= '<div class="alert alert-success">You\'ve successfully updated group "'.$group->name.'" <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-					$ignore_form = true;
+					Hint::set(Hint::SUCCESS, 'You\'ve successfully updated group "'.$group->name.'"');
+					$this->redirect(Route::url('sentry.groups', null, true));
 				}
 				catch (ORM_Validation_Exception $e)
 				{
 					foreach($e->errors('model') as $error)
 					{
-						$content .= '<div class="alert alert-error">'.$error.' <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+						Hint::set(Hint::ERROR, $error);
 					}
-
 				}
-			}
 
-			if(!$ignore_form) {
-				$permissions = (is_array($group->permissions)) ? array_keys($group->permissions) : array();
-				$content .= View::factory('sentry/groups/edit',array('group' => $group, 'permissions' => Permissions::instance()->split($permissions)));
+				$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+				$this->action_edit($group);
 			}
+			else
+				$this->redirect(Route::url('sentry.groups.edit', array('id' => $id), true));
 		}
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+			Hint::set(Hint::ERROR, 'No corresponding group found');
+			$this->redirect(Route::url('sentry.groups', null, true));
+		}
 	}
 
+	// Try to delete a group
 	public function action_delete() {
 		$id = $this->request->param('id');
 
-		$group = ORM::factory('Group', $id);
+		try {
+			$group = Sentry::getGroupProvider()->findById($id);
 
-		if (!$group->loaded())
-		{
-			$content = '<h2 class="text-error pull-left">404.</h2> <h3>No corresponding group found</h3>';
-		}
-		else {
 			$name = $group->name;
 			$group->delete();
 
-			$content = '<div class="alert alert-success">You\'ve deleted group "'.$name.'" <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-		}
+			Hint::set(Hint::SUCCESS, 'You\'ve deleted group "'.$name.'"');
 
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+			$this->redirect(Route::url('sentry.groups', null, true));
+		}
+		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+			Hint::set(Hint::ERROR, 'No corresponding group found');
+			$this->redirect(Route::url('sentry.groups', null, true));
+		}
 	}
 
 } // End Sentry_Groups

@@ -126,7 +126,7 @@ class Permissions {
 
 		if($list == null)
 		{
-			$perms = array('keep' => array(), 'owned' => array());
+			$perms = array('free' => array(), 'excluded' => array());
 
 			$paths = array_keys(Kohana::list_files('permissions'));
 
@@ -146,7 +146,7 @@ class Permissions {
 						}
 						else
 						{
-							$perms['owned'][] = $set . '.' . $v;
+							$perms['excluded'][] = $set . '.' . $v;
 						}
 					}
 					else
@@ -158,7 +158,7 @@ class Permissions {
 			$list = $perms;
 		}
 
-		sort($perms['owned']);
+		sort($perms['excluded']);
 		sort($perms['free']);
 		return $list;
 	}
@@ -182,7 +182,7 @@ class Permissions {
 				}
 				else
 				{
-					$list['owned'][] = $parent . '.' . $v;
+					$list['excluded'][] = $parent . '.' . $v;
 				}
 			}
 			else

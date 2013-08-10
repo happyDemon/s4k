@@ -74,6 +74,7 @@
 	<div id="wrap">
 		<div id="push"></div>
 		<div class="container">
+			<?=$hints;?>
 			<?=$content;?>
 		</div> <!-- /container -->
 	</div>
@@ -90,6 +91,7 @@
 	<script type="text/javascript">
 		$(function() {
 			$('#permissions').moveSelect({btn_save: $('#group-save'), filter: false});
+			$('#groups').moveSelect({prefix: '#move-group-', btn_save: $('#group-save'), filter: false});
 		});
 	</script>
 </body>

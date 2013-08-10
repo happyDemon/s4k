@@ -1,17 +1,25 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
+	
+	// List all the registered users
 	public function action_index() {
-		//$users = ORM::factory('User')->find_all();
 		$users = Sentry::getUserProvider()->findAll();
+		
 		$this->_tpl->content = View::factory('sentry/user/manage/list', array('users' => $users));
-		$this->response->body($this->_tpl->render());
 	}
 
+	// Show the create user form
 	public function action_add() {
-		$ignore_form = false;
-		$content = '';
+		$this->_tpl->content = View::factory('sentry/user/manage/create', array(
+			'groups' => Sentry::getGroupProvider()->findAll(),
+			'permissions' => Permissions::instance()->all()
+			)
+		);
+	}
 
+	// Try to create a user
+	public function action_add_complete() {
 		if($this->request->post() != null) {
 			try
 			{
@@ -27,53 +35,68 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 					$post['permissions'] = $list;
 				}
 
-				$user = ORM::factory('User')
+				$user = $user = Sentry::getUserProvider()->createModel()
 					->values($post)
 					->save();
 
-				$content .= '<div class="alert alert-success">You\'ve successfully created user "'.$user->id.'" <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-				$ignore_form = true;
+				Hint::set(Hint::SUCCESS, 'You\'ve successfully created user "'.$user->id);
+				$this->redirect(Route::url('sentry.users.manage', null, true));
 			}
 			catch (ORM_Validation_Exception $e)
 			{
 				foreach($e->errors('model') as $error)
 				{
-					$content .= '<div class="alert alert-error">'.$error.' <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+					Hint::set(Hint::ERROR, $error);
 				}
-
 			}
+
+			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->action_add();
 		}
-
-		if(!$ignore_form) {
-			$content .= View::factory('sentry/user/manage/create',array('groups' => Sentry::getGroupProvider()->findAll(), 'permissions' => Permissions::instance()->all()));
-		}
-
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		else
+			$this->redirect(Route::url('sentry.users.manage.add', null, true));
 	}
 
-	public function action_edit() {
+	// Show the edit user form
+	public function action_edit($user=null) {
 		$id = $this->request->param('id');
 
-		$user = ORM::factory('User', $id);
+		try {
+			$user = ($user != null) ? $user : Sentry::getUserProvider()->findById($id);
+			$permissions = (is_array($user->permissions)) ? array_keys($user->permissions) : array();
 
-		if (!$user->loaded())
-		{
-			$content = '<h2 class="text-error pull-left">404.</h2> <h3>No corresponding user found</h3>';
+			//split up the user groups
+			$groups = $user->not_in_groups(true);
+
+			$this->_tpl->content = View::factory('sentry/user/manage/edit', array(
+				'user' => $user,
+				'groups' => $groups,
+				'permissions' => Permissions::instance()->split($permissions)
+				)
+			);
 		}
-		else {
-			$content = '';
-			$ignore_form = false;
+		catch( \Cartalyst\Sentry\Users\UserNotFoundException $e) {
+			Hint::set(Hint::ERROR, 'No corresponding user found');
+			$this->redirect(Route::url('sentry.users.manage', null, true));
+		}
+	}
 
+	// Try to edit a user
+	public function action_edit_complete() {
+		$id = $this->request->param('id');
+
+		try {
 			if($this->request->post() != null) {
+				$user = Sentry::getUserProvider()->findById($id);
+
 				try
 				{
 					$post = $this->request->post();
-
+					$values = array('email', 'password', 'first_name', 'last_name', 'permissions');
 					if(empty($post['password']))
 					{
 						unset($post['password']);
+						unset($values[1]);
 					}
 					//set all posted permissions to 1
 					if(array_key_exists('permissions', $post) && count($post['permissions'] > 0)) {
@@ -85,51 +108,55 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 						$post['permissions'] = $list;
 					}
 
-					$user->values($post)
+					$user->values($post, $values)
 						->save();
 
-					$content .= '<div class="alert alert-success">You\'ve successfully updated user "#'.$user->id.'" <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
-					$ignore_form = true;
+					if(count($post['groups']) > 0)
+					{
+						$user->set_groups($post['groups']);
+					}
+
+					Hint::set(Hint::SUCCESS, 'You\'ve successfully updated user "#'.$user->id);
+					$this->redirect(Route::url('sentry.users.manage', null, true));
 				}
 				catch (ORM_Validation_Exception $e)
 				{
 					foreach($e->errors('model') as $error)
 					{
-						$content .= '<div class="alert alert-error">'.$error.' <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+						Hint::set(Hint::ERROR, $error);
 					}
-
 				}
-			}
 
-			if(!$ignore_form) {
-				$permissions = (is_array($user->permissions)) ? array_keys($user->permissions) : array();
-				$groups = Arr::exclude(Sentry::getGroupProvider()->findAll()->as_array(), $user->groups->as_array(), true);
-				$content .= View::factory('sentry/user/manage/edit',array('user' => $user, 'groups' => $groups, 'permissions' => Permissions::instance()->split($permissions)));
+				$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+				$this->action_edit($user);
+			}
+			else
+			{
+				$this->redirect(Route::url('sentry.users.manage.edit', array('id' => $id), true));
 			}
 		}
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		catch( \Cartalyst\Sentry\Users\UserNotFoundException $e) {
+			Hint::set(Hint::ERROR, 'No corresponding user found');
+			$this->redirect(Route::url('sentry.users.manage', null, true));
+		}
 	}
 
+	// Try to delete a user
 	public function action_delete() {
 		$id = $this->request->param('id');
 
-		$user = ORM::factory('User', $id);
-
-		if (!$user->loaded())
-		{
-			$content = '<h2 class="text-error pull-left">404.</h2> <h3>No corresponding user found</h3>';
-		}
-		else {
+		try {
+			$user = Sentry::getUserProvider()->findById($id);
 			$id = $user->id;
 			$user->delete();
 
-			$content = '<div class="alert alert-success">You\'ve deleted user "#'.$id.'" <a href="#" class="close" data-dismiss="alert">&times;</a></div>';
+			Hint::set(Hint::SUCCESS, 'You\'ve deleted user "#'.$id);
+			$this->redirect(Route::url('sentry.users.manage', null, true));
 		}
-
-		$this->_tpl->content = $content;
-		$this->response->body($this->_tpl->render());
+		catch( \Cartalyst\Sentry\Users\UserNotFoundException $e) {
+			Hint::set(Hint::ERROR, 'No corresponding user found');
+			$this->redirect(Route::url('sentry.users.manage', null, true));
+		}
 	}
 
-} // End Sentry_Groups
+} // End Sentry_Users_Manage

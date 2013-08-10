@@ -1,7 +1,7 @@
 <h2>Create user</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.manage.add', null, true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.manage.add.complete', null, true);?>">
 		<fieldset>
 			<legend>General</legend>
 			<div class="control-group">
@@ -37,25 +37,25 @@
 					<div class="row-fluid" id="groups">
 						<div class="row-fluid">
 							<div class="span5">
-								<select multiple="multiple" class="span12" id="move-select-base-group" size="8">
+								<select multiple="multiple" class="span12" id="move-group-base" size="8">
 									<?php foreach($groups as $group):?>
 										<option value="<?=$group->id;?>"><?=$group->name;?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
 							<div class="span2 pagination-centered" style="padding-top: 60px;">
-								<a class="btn btn-small btn-primary" id="move-select-in-group">>></a><br />
-								<a class="btn btn-small btn-primary" id="move-select-out-group"><<</a>
+								<a class="btn btn-small btn-primary" id="move-group-in">>></a><br />
+								<a class="btn btn-small btn-primary" id="move-group-out"><<</a>
 							</div>
 							<div class="span5">
-								<select multiple="multiple" class="span12" id="move-select-container-group" size="8" name="groups[]">
+								<select multiple="multiple" class="span12" id="move-group-container" size="8" name="groups[]">
 								</select>
 							</div>
 						</div>
 						<div class="row-fluid">
-							<div class="span5"><a href="#" class="btn btn-mini btn-success" id="move-select-fill-group">Move all</a></div>
+							<div class="span5"><a href="#" class="btn btn-mini btn-success" id="move-group-fill">Move all</a></div>
 							<div class="span2" style="padding-top: 20px; padding-left: 15px"></div>
-							<div class="span5"><a href="#" class="btn btn-mini btn-danger pull-right" id="move-select-empty-group">Remove all</a></div>
+							<div class="span5"><a href="#" class="btn btn-mini btn-danger pull-right" id="move-group-empty">Remove all</a></div>
 						</div>
 					</div>
 				</div>
