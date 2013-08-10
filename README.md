@@ -48,6 +48,19 @@ so installing it through composer will be a bit different.
 					"reference": "master"
 				}
 			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "goyote/hint",
+				"type":"kohana-module",
+				"version": "1.0",
+				"source": {
+					"url": "https://github.com/goyote/hint.git",
+					"type": "git",
+					"reference": "master"
+				}
+			}
 		}
 	],
 	"require": {
@@ -56,7 +69,7 @@ so installing it through composer will be a bit different.
   		"happydemon/elements": "*",
   		"happydemon/txt": "*",
 		"happydemon/s4k": "*",
-		"happydemon/arr": "0.4"
+		"goyote/hint": "1.0"
 	},
 	"minimum-stability": "dev"
 }
@@ -68,12 +81,13 @@ Next up open ```APPATH.bootstrap.php``` and add S4K, elements and txt to your mo
 
 ```php
 Kohana::modules(array(
-  's4k' => MODPATH.'s4k',		// S4K module, examplory implementation of Sentry
-  'txt' => MODPATH.'txt',		// Extra text helpers (used by Sentry)
-  'arr' => MODPATH.'arr',		// Extra Arr helpers (used for groups)
-  'elements' => MODPATH.'elements',	// Navigation element manager
-  'database'   => MODPATH.'database',	// Database access
-  'orm'        => MODPATH.'orm',	// Object Relationship Mapping
+  's4k' 	=> MODPATH.'s4k',	// S4K module, examplory implementation of Sentry
+  'txt' 	=> MODPATH.'txt',	// Extra text helpers (used by Sentry)
+  'arr' 	=> MODPATH.'arr',	// Extra Arr helpers (used for groups)
+  'elements' 	=> MODPATH.'elements',	// Navigation element manager
+  'hint' 	=> MODPATH.'hint',	// Flash message manager
+  'database'	=> MODPATH.'database',	// Database access
+  'orm'		=> MODPATH.'orm',	// Object Relationship Mapping
 ));
 ```
 
