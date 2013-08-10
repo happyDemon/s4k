@@ -3,9 +3,7 @@
 class Controller_Sentry_User extends Controller_Sentry_Base {
 
 	// Show the registration form
-	public function action_register($values = array()) {
-		$form_values = array_merge(array('email' => '', 'password' => '', 'first_name' => '', 'last_name' => ''), $values);
-
+	public function action_register($form_values = array('email' => '', 'password' => '', 'first_name' => '', 'last_name' => '')) {
 		$this->_tpl->content = View::factory('sentry/user/register', $form_values);
 	}
 	
@@ -34,6 +32,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 			{
 				$errors = $e->errors('orm');
 
+				//make hints out of the errors
 				foreach($errors as $error)
 				{
 					Hint::set(Hint::ERROR, $error);
@@ -85,6 +84,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				Hint::set(Hint::ERROR, 'This user is already activated.');
 			}
 
+			//No success activating this user, show the form again with the errors
 			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
 			$this->action_activate();
 		}
@@ -106,11 +106,16 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 			{
 				$throttle_provider = Sentry::getThrottleProvider();
 
+				//if the login throttler is enabled set it up
 				if(Kohana::$config->load('sentry.throttle') == true) {
 					$throttle_provider->enable();
 
 					$throttle = $throttle_provider->findByUserLogin($this->request->post('email'));
+
+					//set the limit of consecutive failed login attempts
 					$throttle->setAttemptLimit(Kohana::$config->load('sentry.throttle_attempts'));
+
+					//set the suspension time in minutes
 					$throttle->setSuspensionTime(Kohana::$config->load('sentry.throttle_suspension_time'));
 				}
 				else
@@ -129,6 +134,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 					Sentry::login($user, false);
 				}
 
+				//if the login throttler is enabled clear failed login attempts
 				if($throttle_provider->isEnabled())
 					$throttle->clearLoginAttempts();
 
@@ -141,6 +147,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 			{
 				Hint::set(Hint::ERROR, 'You seem to have have provided an incorrect password.');
 
+				//if throttles are enabled add an attempt and show how many attempts are left
 				if($throttle_provider->isEnabled()) {
 					$throttle->addLoginAttempt();
 
@@ -170,6 +177,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				Hint::set(Hint::ERROR, 'You are banned.');
 			}
 
+			//No success signing in, show the form again with the errors
 			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
 			$this->action_login($view);
 		}
@@ -205,6 +213,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				Hint::set(Hint::ERROR, 'There\'s no user with that login credential.');
 			}
 
+			//No success trying to request a reset password token, show the form again with the errors
 			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
 			$this->action_reset();
 		}
@@ -257,7 +266,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				Hint::set(Hint::ERROR, 'There\'s no user with that login credential.');
 			}
 
-			//show the form with the hints
+			// Resetting the password failed, show the form with the errors
 			$this->redirect(Route::url('sentry.users.reset_valid', null, true));
 			$this->action_reset_valid();
 		}

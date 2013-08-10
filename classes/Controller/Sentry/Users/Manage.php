@@ -35,10 +35,12 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 					$post['permissions'] = $list;
 				}
 
+				//save the user
 				$user = $user = Sentry::getUserProvider()->createModel()
 					->values($post)
 					->save();
 
+				//set a success message an redirect to the management page
 				Hint::set(Hint::SUCCESS, 'You\'ve successfully created user "'.$user->id);
 				$this->redirect(Route::url('sentry.users.manage', null, true));
 			}
@@ -50,10 +52,11 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 				}
 			}
 
+			//No success saving the user, show the form again with the errors
 			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
 			$this->action_add();
 		}
-		else
+		else //No post request, redirect back to the create user page
 			$this->redirect(Route::url('sentry.users.manage.add', null, true));
 	}
 
@@ -93,11 +96,14 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 				{
 					$post = $this->request->post();
 					$values = array('email', 'password', 'first_name', 'last_name', 'permissions');
+
+					//if no password was provided remove the values (to ensure no empty password in the table)
 					if(empty($post['password']))
 					{
 						unset($post['password']);
 						unset($values[1]);
 					}
+
 					//set all posted permissions to 1
 					if(array_key_exists('permissions', $post) && count($post['permissions'] > 0)) {
 						$list = array();
@@ -108,29 +114,34 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 						$post['permissions'] = $list;
 					}
 
+					//save the user
 					$user->values($post, $values)
 						->save();
 
+					//if groups were defined set them (and delete the old ones)
 					if(count($post['groups']) > 0)
 					{
 						$user->set_groups($post['groups']);
 					}
 
+					//everything went fine, set success msg and redirect to the management page
 					Hint::set(Hint::SUCCESS, 'You\'ve successfully updated user "#'.$user->id);
 					$this->redirect(Route::url('sentry.users.manage', null, true));
 				}
 				catch (ORM_Validation_Exception $e)
 				{
+					//set errors as hints
 					foreach($e->errors('model') as $error)
 					{
 						Hint::set(Hint::ERROR, $error);
 					}
 				}
 
+				//No success saving the user, show the form again with the errors
 				$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
 				$this->action_edit($user);
 			}
-			else
+			else //No post request, redirect back to the edit user page
 			{
 				$this->redirect(Route::url('sentry.users.manage.edit', array('id' => $id), true));
 			}
