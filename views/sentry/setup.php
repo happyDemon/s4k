@@ -30,14 +30,45 @@
 			<p>(the migration table isn't required and can be deleted since it's clutter)</p>
 		</li>
 		<li>
-			<h3>3. bootstrap.php</h3>
-			<p>Lastly we need to alias some classes in <code>APPATH.bootstrap.php</code> to get everything up and running.</p>
-			<p>Open up your bootstrap.php, and add these lines of code a the end of the file:</p>
+			<h3>3. Models</h3>
+			<p>
+				You'll need to either extend or alias the models that come with <span class="text-info">Sentry</span> to make sure they play nice with <em>Kohana</em>'s <code>ORM</code>
+			</p>
+			<h4>Extend</h4>
+			<p>
+				Just create 3 model files as your normally would, but instead of extending <code>ORM</code> we'll do it like this:
+			</p>
+			<p>
+				<code>
+					class Model_Group extends \Cartalyst\Sentry\Groups\Kohana\Group {}
+				</code><br />
+				<code>
+					class Model_User extends \Cartalyst\Sentry\Users\Kohana\User {}
+				</code><br />
+				<code>
+					class Model_Throttle extends \Cartalyst\Sentry\Throttling\Kohana\Throttle {}
+				</code><br />
+			</p>
+			<h4>Alias</h4>
+			<p>
+				Or you could alias the classes to an ORM-friendly way:
+			</p>
+			<p>
+				<code>
+					class_alias('\Cartalyst\Sentry\Groups\Kohana\Group', 'Model_Group');<br />
+					class_alias('\Cartalyst\Sentry\Users\Kohana\User', 'Model_User');<br />
+					class_alias('\Cartalyst\Sentry\Throttling\Kohana\Throttle', 'Model_Throttle');<br />
+				</code>
+			</p>
+		</li>
+		<li>
+			<h3>4. bootstrap.php</h3>
+			<p>We need to alias the <span class="text-info">Sentry</span> class in <code>APPATH.bootstrap.php</code> as a handy shortcut.</p>
+			<p>Open up your bootstrap.php, and add this line of code a the end of the file:</p>
 			<p><code>
-				class_alias('\Cartalyst\Sentry\Facades\Kohana\Sentry', 'Sentry'); <br />
-				class_alias('\Cartalyst\Sentry\Users\Kohana\User', 'Model_User'); <br />
-				class_alias('\Cartalyst\Sentry\Throttling\Kohana\Throttle', 'Model_Throttle');<br />
-				class_alias('\Cartalyst\Sentry\Groups\Kohana\Group', 'Model_Group');</code></p>
+				class_alias('\Cartalyst\Sentry\Facades\Kohana\Sentry', 'Sentry');
+				</code>
+			</p>
 		</li>
 	</ul>
 	<div id="push"></div>

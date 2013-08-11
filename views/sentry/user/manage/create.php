@@ -36,6 +36,11 @@
 				<div class="controls">
 					<div class="row-fluid" id="groups">
 						<div class="row-fluid">
+							<div class="span5"><input type="text" id="move-select-group-base" class="span12"/></div>
+							<div class="span2" style="padding-top: 20px; padding-left: 15px"></div>
+							<div class="span5"><input type="text" class="span12 pull-right" id="move-select-group-container" /></div>
+						</div>
+						<div class="row-fluid">
 							<div class="span5">
 								<select multiple="multiple" class="span12" id="move-group-base" size="8">
 									<?php foreach($groups as $group):?>
@@ -64,6 +69,11 @@
 				<label class="control-label">Permissions</label>
 				<div class="controls">
 					<div class="row-fluid" id="permissions">
+						<div class="row-fluid">
+							<div class="span5"><input type="text" id="move-select-filter-base" class="span12"/></div>
+							<div class="span2" style="padding-top: 20px; padding-left: 15px"></div>
+							<div class="span5"><input type="text" class="span12 pull-right" id="move-select-filter-container" /></div>
+						</div>
 						<div class="row-fluid">
 							<div class="span5">
 								<select multiple="multiple" class="span12" id="move-select-base" size="8">

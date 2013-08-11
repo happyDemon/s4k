@@ -10,7 +10,10 @@
 	<p>
 		Therefore no user activation code is sent when registering, or a confirmation code when resetting your password, it will just be displayed.
 	</p>
-	<small>These parts have been marked with <code>@todo</code> in the code.</small>
+	<p><small>These parts have been marked with <code>@todo</code> in the code.</small></p>
+	<p>
+		Next to that, other parts have also been marked with <code>@todo</code> where it would make sense to take a different approach when you're not in a development environment.
+	</p>
 
 	<h3><span class="text-info">Sentry</span> config file</h3>
 

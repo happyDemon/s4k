@@ -5,7 +5,7 @@
 </p>
 
 <p>
-	For the sake of this demo app, I've included a <code>Permission</code> helper that stores all your permissions in config files.
+	For the sake of this demo app, I've included a <code>Permissions</code> helper that stores all your permissions in config files.
 </p>
 
 <h3>Standard</h3>
@@ -15,7 +15,7 @@
 	and can be loaded from your <code>APPATH</code> or any module you have enabled).
 </p>
 <p>
-Here's an example of the Sentry permission file, it's located in <code>MODPATH.s4k/permissions/sentry.php</code>
+Here's an example of a Sentry permission file that's used in this module, it's located in <code>MODPATH.s4k/permissions/sentry.php</code>:
 </p>
 <p>
 	<code>return array(<br />
@@ -66,7 +66,7 @@ You do this by passing all the array keys of the user or group's permissions lik
 		&nbsp;&nbsp;&nbsp;&nbsp;'sentry.groups.delete', <br />
 		&nbsp;&nbsp;&nbsp;&nbsp;'sentry.groups.edit' <br />
 		&nbsp;&nbsp;),<br />
-		&nbsp;&nbsp;'owned' => array(<br />
+		&nbsp;&nbsp;'excluded' => array(<br />
 		&nbsp;&nbsp;&nbsp;&nbsp;'sentry.groups.permissions.add', <br />
 		&nbsp;&nbsp;&nbsp;&nbsp;'sentry.groups.permissions.remove', <br />
 		&nbsp;&nbsp;)<br />

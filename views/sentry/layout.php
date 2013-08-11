@@ -90,8 +90,8 @@
 	<script src="http://ktt-happydemon.rhcloud.com/cdn/moveSelect.js"></script>
 	<script type="text/javascript">
 		$(function() {
-			$('#permissions').moveSelect({btn_save: $('#group-save'), filter: false});
-			$('#groups').moveSelect({prefix: '#move-group-', btn_save: $('#group-save'), filter: false});
+			$('#permissions').moveSelect({btn_save: $('#group-save')});
+			$('#groups').moveSelect({prefix: '#move-group-', btn_save: $('#group-save')});
 		});
 	</script>
 </body>
