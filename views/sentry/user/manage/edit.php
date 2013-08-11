@@ -32,20 +32,20 @@
 		<fieldset>
 			<legend>Info</legend>
 			<div class="control-group">
-				<label class="control-label" for="inputCreated">Created</label>
+				<label class="control-label">Created</label>
 				<div class="controls">
 					<?=$user->created_at;?>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="inputLastLogin">Last login</label>
+				<label class="control-label">Last login</label>
 				<div class="controls">
 					<?=$user->last_login;?>
 				</div>
 			</div>
 			<?php if($user->activated == 0):?>
 			<div class="control-group">
-				<label class="control-label" for="inputActivationCode">Activation code</label>
+				<label class="control-label">Activation code</label>
 				<div class="controls">
 					<?=$user->activation_code;?>
 				</div>
@@ -53,9 +53,24 @@
 			<?php endif;?>
 			<?php if($user->reset_password_code != null): ?>
 			<div class="control-group">
-				<label class="control-label" for="inputResetCode">Reset password code</label>
+				<label class="control-label">Reset password code</label>
 				<div class="controls">
-					<input type="text" class="disabled" value="" id="inputResetCode" />
+					<?=$user->reset_password_code;?>
+				</div>
+			</div>
+			<?php endif; ?>
+			<?php if($user->throttle->suspended != 0): ?>
+			<div class="control-group">
+				<div class="controls">
+					User suspended, too many failed logins
+				</div>
+			</div>
+			<?php endif; ?>
+			<?php if($user->throttle->banned != 0): ?>
+			<div class="control-group">
+				<label class="control-label">Banned at: </label>
+				<div class="controls">
+					<?=$user->throttle->banned_at;?>
 				</div>
 			</div>
 			<?php endif; ?>
