@@ -1,17 +1,17 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Sentry_Groups extends Controller_Sentry_Base {
+class Kohana_Controller_S4K_Groups extends Controller_S4K_Base {
 
 	// List all the created groups
 	public function action_index() {
 		$groups = Sentry::getGroupProvider()->createModel()->find_all();
 
-		$this->_tpl->content = View::factory('sentry/groups/list', array('groups' => $groups));
+		$this->_tpl->content = View::factory('s4k/groups/list', array('groups' => $groups));
 	}
 
 	// Show the create group form
 	public function action_add() {
-		$this->_tpl->content = View::factory('sentry/groups/create',array('permissions' => Permissions::instance()->all()));
+		$this->_tpl->content = View::factory('s4k/groups/create',array('permissions' => Permissions::instance()->all()));
 	}
 
 	// Try to create a group
@@ -50,7 +50,7 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 			}
 
 			//No success saving the group, show the form again with the errors
-			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 			$this->action_add();
 		} //No post request, redirect back to the create group page
 		else
@@ -67,7 +67,7 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 			//get the permission names of this group
 			$permissions = (is_array($group->permissions)) ? array_keys($group->permissions) : array();
 
-			$this->_tpl->content = View::factory('sentry/groups/edit', array(
+			$this->_tpl->content = View::factory('s4k/groups/edit', array(
 				'group' => $group,
 				'permissions' => Permissions::instance()->split($permissions)
 				)
@@ -120,7 +120,7 @@ class Controller_Sentry_Groups extends Controller_Sentry_Base {
 				}
 
 				//No success saving the group, show the form again with the errors
-				$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+				$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 				$this->action_edit($group);
 			}
 			else //No post request, redirect back to the edit group page

@@ -1,7 +1,7 @@
 <h2>Account activation</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.activate.complete', null, true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('S4K.users.activate.complete', null, true);?>">
 		<div class="control-group">
 			<label class="control-label" for="inputEmail">Email</label>
 			<div class="controls">

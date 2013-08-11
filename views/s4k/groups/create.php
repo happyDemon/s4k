@@ -1,7 +1,7 @@
 <h2>Create group</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.groups.add.complete', null, true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('S4K.groups.add.complete', null, true);?>">
 		<div class="control-group">
 			<label class="control-label" for="inputName">Name</label>
 			<div class="controls">

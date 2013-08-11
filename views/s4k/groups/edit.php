@@ -1,7 +1,7 @@
 <h2>Edit group "<?=$group->name;?>"</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.groups.edit.complete', array('id' => $group->id), true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('S4K.groups.edit.complete', array('id' => $group->id), true);?>">
 		<div class="control-group">
 			<label class="control-label" for="inputName">Name</label>
 			<div class="controls">

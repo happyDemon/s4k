@@ -6,11 +6,11 @@ return array(
 	'view' => 'bootstrap/navbar',
 	'items'             => array(
 		array(
-			'route'     => 'sentry.setup',
+			'route'     => 'S4K.setup',
 			'title'   => 'Setup'
 		),
 		array(
-			'route'     => 'sentry.info',
+			'route'     => 'S4K.info',
 			'title'   => 'Info'
 		),
 		array(
@@ -18,30 +18,34 @@ return array(
 			'url' => '#',
 			'items' => array(
 				array(
-					'route'     => 'sentry.users.register',
+					'route'     => 'S4K.users.register',
 					'title'   => 'Register'
 				),
 				array(
-					'route'     => 'sentry.users.activate',
+					'route'     => 'S4K.users.activate',
 					'title'   => 'Activate'
 				),
 				array(
-					'route'     => 'sentry.users.login',
+					'route'     => 'S4K.users.login',
 					'title'   => 'Login'
 				),
 				array(
-					'route'     => 'sentry.users.reset',
+					'route'     => 'S4K.users.reset',
 					'title'   => 'Reset password'
+				),
+				array(
+					'route'     => 'S4K.users.manage',
+					'title'   => 'Manage'
 				)
 			)
 		),
 		array(
 			'title'   => 'Groups',
-			'route' => 'sentry.groups'
+			'route' => 'S4K.groups'
 		),
 		array(
 			'title'   => 'Permissions',
-			'route' => 'sentry.permissions'
+			'route' => 'S4K.permissions'
 		)
 	),
 );

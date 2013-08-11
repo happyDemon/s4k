@@ -1,10 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Sentry_User extends Controller_Sentry_Base {
+class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 
 	// Show the registration form
 	public function action_register($form_values = array('email' => '', 'password' => '', 'first_name' => '', 'last_name' => '')) {
-		$this->_tpl->content = View::factory('sentry/user/register', $form_values);
+		$this->_tpl->content = View::factory('s4k/user/register', $form_values);
 	}
 	
 	// Try to register the user
@@ -39,7 +39,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 				}
 
 				//redisplay the register form
-				$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+				$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 				$this->action_register($this->request->post());
 			}
 		}
@@ -49,7 +49,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 
 	// Show the user activation form
 	public function action_activate() {
-		$this->_tpl->content = View::factory('sentry/user/activate');
+		$this->_tpl->content = View::factory('s4k/user/activate');
 	}
 
 	// Try to activate the user
@@ -85,7 +85,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 			}
 
 			//No success activating this user, show the form again with the errors
-			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 			$this->action_activate();
 		}
 		else // no post request made, send back
@@ -94,7 +94,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 
 	// Show the login form
 	public function action_login($view = array('throttle' => '')) {
-		$this->_tpl->content = View::factory('sentry/user/login', $view);
+		$this->_tpl->content = View::factory('s4k/user/login', $view);
 	}
 
 	// Try to log a user in
@@ -178,7 +178,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 			}
 
 			//No success signing in, show the form again with the errors
-			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 			$this->action_login($view);
 		}
 		else // no post request made, send back
@@ -187,7 +187,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 
 	// Show the reset password form
 	public function action_reset() {
-		$this->_tpl->content = View::factory('sentry/user/reset');
+		$this->_tpl->content = View::factory('s4k/user/reset');
 	}
 
 	// Generate a reset token
@@ -214,7 +214,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 			}
 
 			//No success trying to request a reset password token, show the form again with the errors
-			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 			$this->action_reset();
 		}
 		else // no post request made, send back
@@ -223,7 +223,7 @@ class Controller_Sentry_User extends Controller_Sentry_Base {
 
 	// Show the reset code validation form
 	public function action_reset_valid() {
-		$this->_tpl->content = View::factory('sentry/user/reset_validate');
+		$this->_tpl->content = View::factory('s4k/user/reset_validate');
 	}
 
 	// Try to reset a user's password

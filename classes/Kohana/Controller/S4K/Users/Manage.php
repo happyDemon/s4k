@@ -1,17 +1,17 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
+class Kohana_Controller_S4K_Users_Manage extends Controller_S4K_Base {
 	
 	// List all the registered users
 	public function action_index() {
 		$users = Sentry::getUserProvider()->findAll();
 		
-		$this->_tpl->content = View::factory('sentry/user/manage/list', array('users' => $users));
+		$this->_tpl->content = View::factory('s4k/user/manage/list', array('users' => $users));
 	}
 
 	// Show the create user form
 	public function action_add() {
-		$this->_tpl->content = View::factory('sentry/user/manage/create', array(
+		$this->_tpl->content = View::factory('s4k/user/manage/create', array(
 			'groups' => Sentry::getGroupProvider()->findAll(),
 			'permissions' => Permissions::instance()->all()
 			)
@@ -53,7 +53,7 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 			}
 
 			//No success saving the user, show the form again with the errors
-			$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+			$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 			$this->action_add();
 		}
 		else //No post request, redirect back to the create user page
@@ -71,7 +71,7 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 			//split up the user groups
 			$groups = $user->not_in_groups(true);
 
-			$this->_tpl->content = View::factory('sentry/user/manage/edit', array(
+			$this->_tpl->content = View::factory('s4k/user/manage/edit', array(
 				'user' => $user,
 				'groups' => $groups,
 				'permissions' => Permissions::instance()->split($permissions)
@@ -138,7 +138,7 @@ class Controller_Sentry_Users_Manage extends Controller_Sentry_Base {
 				}
 
 				//No success saving the user, show the form again with the errors
-				$this->_tpl->hints = Hint::render(null, true, 'sentry/hint');
+				$this->_tpl->hints = Hint::render(null, true, 's4k/hint');
 				$this->action_edit($user);
 			}
 			else //No post request, redirect back to the edit user page

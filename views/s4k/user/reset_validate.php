@@ -1,7 +1,7 @@
 <h2>Password reset</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.reset_valid.complete', null, true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('S4K.users.reset_valid.complete', null, true);?>">
 		<div class="control-group">
 			<label class="control-label" for="inputEmail">Email</label>
 			<div class="controls">

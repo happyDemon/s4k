@@ -1,7 +1,7 @@
 <h2>Sign in</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.login.complete', null, true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('S4K.users.login.complete', null, true);?>">
 		<div class="control-group">
 			<label class="control-label" for="inputEmail">Email</label>
 			<div class="controls">

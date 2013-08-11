@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Model_Throttle extends Kohana_Model_Throttle {
+class Kohana_Model_Throttle extends \Cartalyst\Sentry\Throttling\Kohana\Throttle {
 
 	// This class can be replaced or extended
 

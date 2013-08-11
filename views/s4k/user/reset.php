@@ -1,7 +1,7 @@
 <a href="<?=Route::url('sentry.users.reset_valid', null, true);?>" class="pull-right">Reset password</a><h2>Forgotten password</h2>
 
 <div class="row-fluid">
-	<form class="form-horizontal" method="POST" action="<?=Route::url('sentry.users.reset.complete', null, true);?>">
+	<form class="form-horizontal" method="POST" action="<?=Route::url('S4K.users.reset.complete', null, true);?>">
 		<div class="control-group">
 			<label class="control-label" for="inputEmail">Email</label>
 			<div class="controls">
