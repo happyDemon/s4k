@@ -13,9 +13,19 @@
 			<div class="controls">
 				<div class="row-fluid" id="permissions">
 					<div class="row-fluid">
-						<div class="span5"><input type="text" id="move-select-filter-base" class="span12"/></div>
-						<div class="span2" style="padding-top: 20px; padding-left: 15px"></div>
-						<div class="span5"><input type="text" class="span12 pull-right" id="move-select-filter-container" /></div>
+						<div class="span5">
+							<div class="input-append span12">
+								<input type="text" id="move-select-filter-base" class="appendedInput"/>
+								<span class="add-on"><i class="icon-search"></i></span>
+							</div>
+						</div>
+						<div class="span2"></div>
+						<div class="span5">
+							<div class="input-append span12 pull-right">
+								<input type="text" id="move-select-filter-container" class="appendedInput"/>
+								<span class="add-on"><i class="icon-search"></i></span>
+							</div>
+						</div>
 					</div>
 					<div class="row-fluid">
 						<div class="span5">
