@@ -84,7 +84,7 @@
 						<div class="row-fluid">
 							<div class="span5"><input type="text" id="move-group-filter-base" class="span12"/></div>
 							<div class="span2" style="padding-top: 20px; padding-left: 15px"></div>
-							<div class="span5"><input type="text" class="span12 pull-right" id="move-select-group-container" /></div>
+							<div class="span5"><input type="text" class="span12 pull-right" id="move-group-filter-container" /></div>
 						</div>
 						<div class="row-fluid">
 							<div class="span5">
