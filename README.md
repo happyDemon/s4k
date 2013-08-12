@@ -106,5 +106,5 @@ now incuded in this module**
 Allright, we're nearly up and running, all we need to do is run an SQL dump in phpMyAdmin, you can find 
 it under ```DOCROOT/vendor/cartalyst/schema/mysql.sql```
 
-If you run Kohana on your localhost in the dir 'kohana', go and visit ```http://localhost/kohana/sentry``` to see the
+If you run Kohana on your localhost in the dir 'kohana', go and visit ```http://localhost/kohana/S4K``` to see the
 running examples.
