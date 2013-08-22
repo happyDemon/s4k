@@ -17,8 +17,8 @@
 		"composer/installers"       : "*",
 		"cartalyst/sentry"          : "2.0.*",
 		"ircmaxell/password-compat" : "1.0.*",
-		"happydemon/txt"            : "*",
+		"happydemon/txt"            : "1.0",
 		"happydemon/elements"       : ">=1.4",
-		"happydemon/arr"       	    : "0.4"
+		"happydemon/arr"       	    : ">=1.0"
 	}
 }
