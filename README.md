@@ -16,29 +16,6 @@ so installing it through composer will be a bit different.
 		{
 			"type": "package",
 			"package": {
-				"name": "cartalyst/sentry",
-				"version": "2.0.0",
-				"source": {
-					"url": "https://github.com/happyDemon/sentry.git",
-					"type": "git",
-					"reference": "master"
-				},
-				"autoload": {
-					"classmap": [
-						"src/Cartalyst/Sentry/Groups/Exceptions.php",
-						"src/Cartalyst/Sentry/Throttling/Exceptions.php",
-						"src/Cartalyst/Sentry/Users/Exceptions.php",
-						"src/migrations"
-					],
-					"psr-0": {
-						"Cartalyst\\Sentry": "src/"
-					}
-				}
-			}
-		},
-		{
-			"type": "package",
-			"package": {
 				"name": "happydemon/s4k",
 				"type":"kohana-module",
 				"version": "0.1",
@@ -64,11 +41,12 @@ so installing it through composer will be a bit different.
 		}
 	],
 	"require": {
-		"cartalyst/sentry": "2.0.0",
+		"cartalyst/sentry": "2.0.*",
 		"ircmaxell/password-compat": "1.0.*",
-  		"happydemon/elements": "*",
-  		"happydemon/txt": "*",
+  		"happydemon/elements": "1.4",
+  		"happydemon/txt": "1.*",
 		"happydemon/s4k": "*",
+		"happydemon/arr": "1.*"
 		"goyote/hint": "1.0"
 	},
 	"minimum-stability": "dev"
