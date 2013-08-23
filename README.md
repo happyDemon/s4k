@@ -41,7 +41,7 @@ I'm making use of Goyote's Hint module, you'll have to add this as a repository 
 	"require": {
 		"cartalyst/sentry": "2.*",
 		"ircmaxell/password-compat": "1.0.*",
-		"happydemon/s4k": "*",
+		"happydemon/s4k": "0.5",
 		"goyote/hint": "1.0"
 	},
 	"minimum-stability": "dev"
