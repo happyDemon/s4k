@@ -23,7 +23,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 				Hint::set(Hint::SUCCESS, 'Your activation code is: ' . $activationCode);
 
 				//everything went successful, send the user somewhere else
-				$this->redirect(Route::url('sentry.users.register', null, true));
+				$this->redirect(Route::url('S4K.users.register', null, true));
 				//@todo normally you wouldn't redirect back to the register
 				//@todo Send activation code to the user so he can activate the account
 
@@ -44,7 +44,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 			}
 		}
 		else // no post request made, send back
-			$this->redirect(Route::url('sentry.users.register', null, true));
+			$this->redirect(Route::url('S4K.users.register', null, true));
 	}
 
 	// Show the user activation form
@@ -65,7 +65,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 					Hint::set(Hint::SUCCESS, 'Your account has been activated.');
 
 					//everything went successful, send the user somewhere else
-					$this->redirect(Route::url('sentry.users.activate', null, true));
+					$this->redirect(Route::url('S4K.users.activate', null, true));
 					//@todo you'd preferably send the user to a welcome page instead of the activate page again
 				}
 				else
@@ -89,7 +89,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 			$this->action_activate();
 		}
 		else // no post request made, send back
-			$this->redirect(Route::url('sentry.users.register', null, true));
+			$this->redirect(Route::url('S4K.users.register', null, true));
 	}
 
 	// Show the login form
@@ -140,7 +140,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 
 				Hint::set(Hint::SUCCESS, 'Welcome back!');
 				//everything went successful, send the user somewhere else
-				$this->redirect(Route::url('sentry.users.login', null, true));
+				$this->redirect(Route::url('S4K.users.login', null, true));
 				//@todo you'll probably rather send your user to a welcome page than back to the login
 			}
 			catch (Cartalyst\Sentry\Users\WrongPasswordException $e)
@@ -182,7 +182,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 			$this->action_login($view);
 		}
 		else // no post request made, send back
-			$this->redirect(Route::url('sentry.users.login', null, true));
+			$this->redirect(Route::url('S4K.users.login', null, true));
 	}
 
 	// Show the reset password form
@@ -204,7 +204,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 				Hint::set(Hint::SUCCESS, 'Your reset token is: "'.$resetCode);
 
 				//everything went successful, send the user somewhere else
-				$this->redirect(Route::url('sentry.users.reset', null, true));
+				$this->redirect(Route::url('S4K.users.reset', null, true));
 				// @todo normally you wouldn't redirect here, but rather show a page conforming the code was sent
 				// @todo Now you can send this code to your user via email for example.
 			}
@@ -218,7 +218,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 			$this->action_reset();
 		}
 		else // no post request made, send back
-			$this->redirect(Route::url('sentry.users.reset', null, true));
+			$this->redirect(Route::url('S4K.users.reset', null, true));
 	}
 
 	// Show the reset code validation form
@@ -248,7 +248,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 						Hint::set(Hint::SUCCESS, 'You have successfully reset your password');
 
 						//everything went successful, send the user somewhere else
-						$this->redirect(Route::url('sentry.users.reset_valid', null, true));
+						$this->redirect(Route::url('S4K.users.reset_valid', null, true));
 					}
 					else
 					{
@@ -267,11 +267,11 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 			}
 
 			// Resetting the password failed, show the form with the errors
-			$this->redirect(Route::url('sentry.users.reset_valid', null, true));
+			$this->redirect(Route::url('S4K.users.reset_valid', null, true));
 			$this->action_reset_valid();
 		}
 		else // no post request made, send back
-			$this->redirect(Route::url('sentry.users.reset_valid', null, true));
+			$this->redirect(Route::url('S4K.users.reset_valid', null, true));
 	}
 
 } // End Sentry_User
