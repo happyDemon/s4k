@@ -38,7 +38,7 @@ class Kohana_Controller_S4K_Groups extends Controller_S4K_Base {
 
 				//set a success message an redirect to the management page
 				Hint::set(Hint::SUCCESS, 'You\'ve successfully created group "'.$group->name.'"');
-				$this->redirect(Route::url('sentry.groups', null, true));
+				$this->redirect(Route::url('S4K.groups', null, true));
 			}
 			catch (ORM_Validation_Exception $e)
 			{
@@ -54,7 +54,7 @@ class Kohana_Controller_S4K_Groups extends Controller_S4K_Base {
 			$this->action_add();
 		} //No post request, redirect back to the create group page
 		else
-			$this->redirect(Route::url('sentry.groups.add', null, true));
+			$this->redirect(Route::url('S4K.groups.add', null, true));
 	}
 
 	// Show the edit group form
@@ -76,7 +76,7 @@ class Kohana_Controller_S4K_Groups extends Controller_S4K_Base {
 		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
 			//set an error message an redirect to the management page
 			Hint::set(Hint::ERROR, 'No corresponding group found');
-			$this->redirect(Route::url('sentry.groups', null, true));
+			$this->redirect(Route::url('S4K.groups', null, true));
 		}
 	}
 
@@ -108,7 +108,7 @@ class Kohana_Controller_S4K_Groups extends Controller_S4K_Base {
 
 					//set a success message an redirect to the management page
 					Hint::set(Hint::SUCCESS, 'You\'ve successfully updated group "'.$group->name.'"');
-					$this->redirect(Route::url('sentry.groups', null, true));
+					$this->redirect(Route::url('S4K.groups', null, true));
 				}
 				catch (ORM_Validation_Exception $e)
 				{
@@ -124,12 +124,12 @@ class Kohana_Controller_S4K_Groups extends Controller_S4K_Base {
 				$this->action_edit($group);
 			}
 			else //No post request, redirect back to the edit group page
-				$this->redirect(Route::url('sentry.groups.edit', array('id' => $id), true));
+				$this->redirect(Route::url('S4K.groups.edit', array('id' => $id), true));
 		}
 		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
 			//set an error message an redirect to the management page
 			Hint::set(Hint::ERROR, 'No corresponding group found');
-			$this->redirect(Route::url('sentry.groups', null, true));
+			$this->redirect(Route::url('S4K.groups', null, true));
 		}
 	}
 
@@ -145,12 +145,12 @@ class Kohana_Controller_S4K_Groups extends Controller_S4K_Base {
 
 			//set a success message an redirect to the management page
 			Hint::set(Hint::SUCCESS, 'You\'ve deleted group "'.$name.'"');
-			$this->redirect(Route::url('sentry.groups', null, true));
+			$this->redirect(Route::url('S4K.groups', null, true));
 		}
 		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
 			//set an error message an redirect to the management page
 			Hint::set(Hint::ERROR, 'No corresponding group found');
-			$this->redirect(Route::url('sentry.groups', null, true));
+			$this->redirect(Route::url('S4K.groups', null, true));
 		}
 	}
 

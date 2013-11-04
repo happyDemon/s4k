@@ -42,7 +42,7 @@ class Kohana_Controller_S4K_Users_Manage extends Controller_S4K_Base {
 
 				//set a success message an redirect to the management page
 				Hint::set(Hint::SUCCESS, 'You\'ve successfully created user "'.$user->id);
-				$this->redirect(Route::url('sentry.users.manage', null, true));
+				$this->redirect(Route::url('S4K.users.manage', null, true));
 			}
 			catch (ORM_Validation_Exception $e)
 			{
@@ -57,7 +57,7 @@ class Kohana_Controller_S4K_Users_Manage extends Controller_S4K_Base {
 			$this->action_add();
 		}
 		else //No post request, redirect back to the create user page
-			$this->redirect(Route::url('sentry.users.manage.add', null, true));
+			$this->redirect(Route::url('S4K.users.manage.add', null, true));
 	}
 
 	// Show the edit user form
@@ -80,7 +80,7 @@ class Kohana_Controller_S4K_Users_Manage extends Controller_S4K_Base {
 		}
 		catch( \Cartalyst\Sentry\Users\UserNotFoundException $e) {
 			Hint::set(Hint::ERROR, 'No corresponding user found');
-			$this->redirect(Route::url('sentry.users.manage', null, true));
+			$this->redirect(Route::url('S4K.users.manage', null, true));
 		}
 	}
 
@@ -126,7 +126,7 @@ class Kohana_Controller_S4K_Users_Manage extends Controller_S4K_Base {
 
 					//everything went fine, set success msg and redirect to the management page
 					Hint::set(Hint::SUCCESS, 'You\'ve successfully updated user "#'.$user->id);
-					$this->redirect(Route::url('sentry.users.manage', null, true));
+					$this->redirect(Route::url('S4K.users.manage', null, true));
 				}
 				catch (ORM_Validation_Exception $e)
 				{
@@ -143,12 +143,12 @@ class Kohana_Controller_S4K_Users_Manage extends Controller_S4K_Base {
 			}
 			else //No post request, redirect back to the edit user page
 			{
-				$this->redirect(Route::url('sentry.users.manage.edit', array('id' => $id), true));
+				$this->redirect(Route::url('S4K.users.manage.edit', array('id' => $id), true));
 			}
 		}
 		catch( \Cartalyst\Sentry\Users\UserNotFoundException $e) {
 			Hint::set(Hint::ERROR, 'No corresponding user found');
-			$this->redirect(Route::url('sentry.users.manage', null, true));
+			$this->redirect(Route::url('S4K.users.manage', null, true));
 		}
 	}
 
@@ -162,11 +162,11 @@ class Kohana_Controller_S4K_Users_Manage extends Controller_S4K_Base {
 			$user->delete();
 
 			Hint::set(Hint::SUCCESS, 'You\'ve deleted user "#'.$id);
-			$this->redirect(Route::url('sentry.users.manage', null, true));
+			$this->redirect(Route::url('S4K.users.manage', null, true));
 		}
 		catch( \Cartalyst\Sentry\Users\UserNotFoundException $e) {
 			Hint::set(Hint::ERROR, 'No corresponding user found');
-			$this->redirect(Route::url('sentry.users.manage', null, true));
+			$this->redirect(Route::url('S4K.users.manage', null, true));
 		}
 	}
 
