@@ -15,7 +15,7 @@ class Kohana_Controller_S4K_User extends Controller_S4K_Base {
 			try
 			{
 				// Let's register a user.
-				$user = Sentry::register($form_values);
+				$user = Sentry::register(array_merge($form_values, $this->request->post()));
 
 				// Let's get the activation code
 				$activationCode = $user->getActivationCode();
