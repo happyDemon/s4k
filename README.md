@@ -78,3 +78,5 @@ it under ```DOCROOT/vendor/cartalyst/schema/mysql.sql```
 
 If you run Kohana on your localhost in the dir 'kohana', go and visit ```http://localhost/kohana/S4K``` to see the
 running examples.
+
+[![Gittip Badge](http://img.shields.io/gittip/happyDemon.svg)](https://www.gittip.com/happyDemon/ "Gittip donations")
